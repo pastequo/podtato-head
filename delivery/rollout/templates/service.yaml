@@ -14,7 +14,7 @@ spec:
       targetPort: 9000
       protocol: TCP
       name: http
-  type: LoadBalancer    
+  type: ClusterIP    
   selector:
     app: {{ template "helloservice-demo.name" . }}
     release: {{ .Release.Name }}

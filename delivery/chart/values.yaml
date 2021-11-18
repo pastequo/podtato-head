@@ -12,7 +12,7 @@ images:
 main:
   repositoryBasename: podtato-main
   tag: "v1-latest-dev"
-  serviceType: LoadBalancer
+  serviceType: ClusterIP
   servicePort: 9000
 hats:
   repositoryBasename: podtato-hats

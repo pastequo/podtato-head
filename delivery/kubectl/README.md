@@ -10,15 +10,6 @@ parameter.
 To deploy the manifest in this repo directly with kubectl:
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/cncf/podtato-head/main/delivery/kubectl/manifest.yaml
-```
-
-Alternatively, clone this repo, change to its directory, and apply the local
-copy of the manifest:
-
-```
-git clone https://github.com/cncf/podtato-head
-cd podtato-head
 kubectl apply -f ./delivery/kubectl/manifest.yaml
 ```
 
@@ -32,25 +23,6 @@ kubectl get pods --namespace podtato-kubectl
 
 ### Test the API endpoint
 
-To connect to the API you'll first need to determine the correct address and
-port.
-
-If using a LoadBalancer-type service, get the IP address of the load balancer
-and use port 9000:
-
-```
-ADDR=$(kubectl get service podtato-main --namespace podtato-kubectl -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-PORT=9000
-```
-
-If using a NodePort-type service, get the address of a node and the service's
-NodePort as follows:
-
-```
-ADDR=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[0].address}')
-PORT=$(kubectl get services --namespace=podtato-kubectl podtato-main -ojsonpath='{.spec.ports[0].nodePort}')
-```
-
 If using a ClusterIP-type service, run `kubectl port-forward` in the background
 and connect through that:
 
@@ -58,24 +30,18 @@ and connect through that:
 
 ```
 # Choose below the IP address of your machine you want to use to access application 
-ADDR=127.0.0.1
+ADDR=0.0.0.0
 # Choose below the port of your machine you want to use to access application 
 PORT=9000
 kubectl port-forward --namespace podtato-kubectl --address ${ADDR} svc/podtato-main ${PORT}:9000 &
 ```
 
-Now test the API itself with curl and/or a browser:
-
-```
-curl http://${ADDR}:${PORT}/
-xdg-open http://${ADDR}:${PORT}/
-```
+Now test the API itself with a browser at `http://<uid>.int.be.continental.cloud:9000/`
 
 ## Purge
 
 To remove all provisioned resources:
 
 ```
-kubectl delete -f https://raw.githubusercontent.com/cncf/podtato-head/main/delivery/kubectl/manifest.yaml
 kubectl delete -f ./delivery/kubectl/manifest.yaml
 ```

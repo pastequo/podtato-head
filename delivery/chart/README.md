@@ -2,16 +2,11 @@
 
 Here's how to deliver podtato-head using [Helm](https://helm.sh).
 
-## Prerequisites
-
-- Install Helm ([official instructions](https://helm.sh/docs/intro/install/))
-
 ## Deliver
 
-You must clone this repo and install from a local copy of the chart:
+Install from the local chart:
 
 ```
-git clone https://github.com/cncf/podtato-head.git && cd podtato-head
 helm install podtato-head ./delivery/chart
 ```
 
@@ -62,25 +57,6 @@ kubectl get services
 
 ### Test the API endpoint
 
-To connect to the API you'll first need to determine the correct address and
-port.
-
-If using a LoadBalancer-type service for `main`, get the IP address of the load balancer
-and use port 9000:
-
-```
-ADDR=$(kubectl get service podtato-main -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-PORT=9000
-```
-
-If using a NodePort-type service, get the address of a node and the service's
-NodePort as follows:
-
-```
-ADDR=$(kubectl get nodes {NODE_NAME} -o jsonpath={.status.addresses[0].address})
-PORT=$(kubectl get services podtato-main -ojsonpath='{.spec.ports[0].nodePort}')
-```
-
 If using a ClusterIP-type service, run `kubectl port-forward` in the background
 and connect through that:
 
@@ -88,18 +64,13 @@ and connect through that:
 
 ```
 # Choose below the IP address of your machine you want to use to access application 
-ADDR=127.0.0.1
+ADDR=0.0.0.0
 # Choose below the port of your machine you want to use to access application 
 PORT=9000
 kubectl port-forward --address ${ADDR} svc/podtato-main ${PORT}:9000 &
 ```
 
-Now test the API itself with curl and/or a browser:
-
-```
-curl http://${ADDR}:${PORT}/
-xdg-open http://${ADDR}:${PORT}/
-```
+Now test the API itself with a browser at `http://<uid>.int.be.continental.cloud:9000/`
 
 ## Update
 

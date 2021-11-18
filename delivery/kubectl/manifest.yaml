@@ -46,7 +46,7 @@ spec:
     port: 9000
     protocol: TCP
     targetPort: 9000
-  type: LoadBalancer
+  type: ClusterIP
   # change to NodePort if no LoadBalancer controller is available
   # type: NodePort
 ---

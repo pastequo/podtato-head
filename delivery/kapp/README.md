@@ -8,14 +8,6 @@ Apply changes safely and predictably, watching resources as they converge.
 
 _NOTE : you have to be into `delivery/kapp` folder to run the commands below._
 
-## Install
-
-You can install `kapp` CLI with :
-
-```
-./setup/install.sh
-```
-
 ## Basic usages
 
 ### Deploy from a directory

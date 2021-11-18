@@ -9,10 +9,6 @@ In short, a set of base resources described in YAML manifests is transformed
 example, common annotations can be added to every resource; and image names and
 tags can be replaced.
 
-## Prerequisites
-
-- Install kustomize ([official docs](https://kubectl.docs.kubernetes.io/installation/kustomize/))
-
 ## Deliver
 
 The base resources are described in the directory `delivery/kustomize/base`.
@@ -21,8 +17,11 @@ First, preview rendered templates from this base with this command: `kustomize b
 
 Now, apply the rendered base: `kustomize build ./delivery/kustomize/base | kubectl apply -f -`.
 
-Alternatively, you can apply a kustomization with
+**WARNING** : Kutomize is included in the default kubectl binary under the `-k` option.
+So, in theory, you could also apply a kustomization with kubectl like this :
 `kubectl apply -k ./delivery/kustomize/base`
+_BUT_ it often leads to errors since the embedded version is not following kustomize official releases.
+So please prefer the standalone `kustomize` CLI which is safer than the embedded `-k` one.
 
 ### Deliver an overlay
 
@@ -53,51 +52,24 @@ Check for resources for the overlay in the `podtato-kustomize-production` namesp
 
 ### Test the API endpoint
 
-To connect to the API you'll first need to determine the correct address and
-port.
-
-If using a LoadBalancer-type service, get the IP address of the load balancer
-and use port 9000:
-
-```
-ADDR=$(kubectl get service podtato-main --namespace podtato-kustomize -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-PORT=9000
-```
-
-If using a NodePort-type service, get the address of a node and the service's
-NodePort as follows:
-
-```
-ADDR=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[0].address}')
-PORT=$(kubectl get services --namespace=podtato-kustomize podtato-main -ojsonpath='{.spec.ports[0].nodePort}')
-```
-
 If using a ClusterIP-type service, run `kubectl port-forward` in the background
 and connect through that:
 
 > NOTE: Find and kill the port-forward process afterwards using `ps` and `kill`.
 
 ```
-kubectl port-forward --namespace podtato-kubectl svc/podtato-main 9000:9000 &
-ADDR=127.0.0.1
+# Choose below the IP address of your machine you want to use to access application 
+ADDR=0.0.0.0
+# Choose below the port of your machine you want to use to access application 
 PORT=9000
+kubectl port-forward --address ${ADDR} svc/podtato-main ${PORT}:9000 &
 ```
 
-Now test the API itself with curl and/or a browser:
-
-```
-curl http://${ADDR}:${PORT}/
-xdg-open http://${ADDR}:${PORT}/
-```
+Now test the API itself with a browser at `http://<uid>.int.be.continental.cloud:9000/`
 
 ## Purge
 
 ```
 kustomize build ./delivery/kustomize/base | kubectl delete -f -
 kustomize build ./delivery/kustomize/overlay | kubectl delete -f -
-
-# or
-
-kubectl delete -k ./delivery/kustomize/base
-kubectl delete -k ./delivery/kustomize/overlay
 ```

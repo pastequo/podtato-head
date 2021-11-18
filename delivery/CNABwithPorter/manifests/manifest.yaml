@@ -41,4 +41,4 @@ spec:
     port: 9000
     protocol: TCP
     targetPort: 9000
-  type: LoadBalancer
+  type: ClusterIP
