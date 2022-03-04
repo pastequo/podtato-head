@@ -3,7 +3,7 @@ kind: Kustomization
 
 ## these resources comprise this kustomization
 resources:
-  - ../base
+  - ../../base
   - namespace.yaml
   - hpa.yaml
 
@@ -15,8 +15,8 @@ commonLabels:
   variant: production
 
 ## strategic merge patches to be applied to resources
-# patchesStrategicMerge:
-#  - patch.yaml
+patchesStrategicMerge:
+ - patch.yaml
 
 ## kustomize transformers that operate on resources
 transformers:

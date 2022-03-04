@@ -19,6 +19,13 @@ resources:
 commonLabels:
   'app.kubernetes.io/name': 'podtato-head'
 
+# configMapGenerator:
+# - name: my-config
+#   files:
+#   - resources/.my-config.yaml
+# generatorOptions:
+#   disableNameSuffixHash: true
+
 # images:
 #   - name: ghcr.io/podtato-head/podtato-main
 #     newName: ghcr.io/${{ github.repository_owner }}/podtato-head/podtato-main

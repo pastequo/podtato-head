@@ -1,0 +1,11 @@
+# patch.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: podtato-hats
+spec:
+  template:
+    spec:
+      containers:
+        - name: podtato-head-hats
+          image: ghcr.io/podtato-head/podtato-hats:v1-latest-dev
