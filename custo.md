@@ -126,3 +126,35 @@ Show UI
 
 Do commit
 
+## Progressive Delivery
+
+### Install Argo rollout
+
+`kubectl create namespace argo-rollouts`
+`kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml`
+
+### Install istio
+
+`istioctl install --set values.gateways.istio-ingressgateway.type=ClusterIP`
+
+### Install prometheus
+
+`kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.13/samples/addons/prometheus.yaml`
+
+### Deploy rollout
+
+`kubectl apply -f ./progressive/namespace.yaml && kubectl apply -f ./progressive`
+
+### demo
+
+Forward metrics: `kubectl port-forward -n istio-system svc/prometheus 9090:9090`
+
+Forward ingress: `kubectl port-forward -n istio-system svc/istio-ingressgateway 8080:80`
+
+`firefox http://localhost:8080 http://localhost:9090 &`
+
+metrics "istio_requests_total"
+
+`kubectl edit -n rollouts-demo rollouts.argoproj.io istio-rollout`
+
+`watch kubectl get virtualservices.networking.istio.io -n rollouts-demo istio-rollout-vsvc -o yaml`

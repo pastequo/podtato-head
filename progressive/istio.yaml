@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: istio-rollout-gateway
+  namespace: rollouts-demo
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: istio-rollout-vsvc
+  namespace: rollouts-demo
+spec:
+  gateways:
+  - istio-rollout-gateway
+  hosts:
+  - "*"
+  http:
+  - name: primary
+    route:
+    - destination:
+        host: istio-rollout-stable
+      weight: 100
+    - destination:
+        host: istio-rollout-canary
+      weight: 0
