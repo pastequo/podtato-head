@@ -8,4 +8,4 @@ spec:
     spec:
       containers:
         - name: podtato-head-hats
-          image: ghcr.io/podtato-head/podtato-hats:v1-latest-dev
+          image: ghcr.io/podtato-head/podtato-hats:v3-latest-dev
