@@ -23,7 +23,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: ghcr.io/podtato-head/podtato-main:v1-latest-dev
+        image: ghcr.io/podtato-head/podtato-main:v2-latest-dev
         imagePullPolicy: Always
         ports:
         - containerPort: 9000
@@ -115,7 +115,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image:  ghcr.io/podtato-head/podtato-left-leg:v1-latest-dev
+          image:  ghcr.io/podtato-head/podtato-left-leg:v3-latest-dev
           imagePullPolicy: Always
           ports:
             - containerPort: 9000
@@ -205,7 +205,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
         - name: server
-          image:  ghcr.io/podtato-head/podtato-right-leg:v4-latest-dev
+          image:  ghcr.io/podtato-head/podtato-right-leg:v1-latest-dev
           imagePullPolicy: Always
           ports:
             - containerPort: 9000
